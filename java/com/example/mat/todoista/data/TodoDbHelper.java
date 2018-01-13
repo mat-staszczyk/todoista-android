@@ -17,7 +17,7 @@ public class TodoDbHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "todosDb.db";
 
     // If you change the database schema, you must increment the database version
-    private static final int VERSION = 1;
+    private static final int VERSION = 4;
 
 
     // Constructor
@@ -36,7 +36,9 @@ public class TodoDbHelper extends SQLiteOpenHelper {
         final String CREATE_TABLE = "CREATE TABLE "  + TodoEntry.TABLE_NAME + " (" +
                 TodoEntry._ID                + " INTEGER PRIMARY KEY, " +
                 TodoEntry.COLUMN_DESCRIPTION + " TEXT NOT NULL, " +
-                TodoEntry.COLUMN_PRIORITY    + " INTEGER NOT NULL);";
+                TodoEntry.COLUMN_PRIORITY    + " INTEGER NOT NULL, " +
+                TodoEntry.COLUMN_REMINDER_DATE + " DATETIME, " +
+                TodoEntry.COLUMN_DONE        + " INTEGER NOT NULL DEFAULT 0);";
 
         db.execSQL(CREATE_TABLE);
     }

@@ -11,7 +11,7 @@ import android.provider.BaseColumns;
 public class TodoContract {
 
     /* Add content provider constants to the Contract
-     Clients need to know how to access the todo data, and it's your job to provide
+     Clients need to know how to access the task data, and it's your job to provide
      these content URI's for the path to that data:
         1) Content authority,
         2) Base content URI,
@@ -44,6 +44,8 @@ public class TodoContract {
         // "_ID" column in addition to the two below
         public static final String COLUMN_DESCRIPTION = "description";
         public static final String COLUMN_PRIORITY = "priority";
+        public static final String COLUMN_REMINDER_DATE = "reminder_date";
+        public static final String COLUMN_DONE = "done";
 
     }
 }
