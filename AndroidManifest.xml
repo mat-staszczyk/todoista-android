@@ -23,7 +23,7 @@
 
         <provider
             android:name="com.example.mat.todoista.data.TodoContentProvider"
-            android:authorities="com.example.android.todolist"
+            android:authorities="com.example.mat.todoista"
             android:exported="false"/>
     </application>
 
