@@ -12,18 +12,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.example.mat.todoista.data.TodoContract;
 
 
 /**
- * This CustomCursorAdapter creates and binds ViewHolders, that hold the description and priority of a todo,
+ * This CustomCursorAdapter creates and binds ViewHolders, that hold the description and priority of a task,
  * to a RecyclerView to efficiently display data.
  */
 public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapter.TodoViewHolder> {
 
-    // Class variables for the Cursor that holds todo data and the Context
+    // Class variables for the Cursor that holds task data and the Context
     private Cursor mCursor;
     private Context mContext;
 
@@ -41,7 +42,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
     /**
      * Called when ViewHolders are created to fill a RecyclerView.
      *
-     * @return A new TodoViewHolder that holds the view for each todo
+     * @return A new TodoViewHolder that holds the view for each task
      */
     @Override
     public TodoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -67,6 +68,8 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
         int idIndex = mCursor.getColumnIndex(TodoContract.TodoEntry._ID);
         int descriptionIndex = mCursor.getColumnIndex(TodoContract.TodoEntry.COLUMN_DESCRIPTION);
         int priorityIndex = mCursor.getColumnIndex(TodoContract.TodoEntry.COLUMN_PRIORITY);
+        int doneIndex = mCursor.getColumnIndex(TodoContract.TodoEntry.COLUMN_DONE);
+        int dateIndex = mCursor.getColumnIndex(TodoContract.TodoEntry.COLUMN_REMINDER_DATE);
 
         mCursor.moveToPosition(position); // get to the right location in the cursor
 
@@ -74,10 +77,21 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
         final int id = mCursor.getInt(idIndex);
         String description = mCursor.getString(descriptionIndex);
         int priority = mCursor.getInt(priorityIndex);
+        int done = mCursor.getInt(doneIndex);
+        String date = mCursor.getString(dateIndex).toString();
 
         //Set values
         holder.itemView.setTag(id);
         holder.todoDescriptionView.setText(description);
+        holder.todoDescriptionView.setTag(id);
+        holder.reminderDateView.setText(date);
+
+        if (done == 1) {
+            holder.doneView.setChecked(true);
+        } else {
+            holder.doneView.setChecked(false);
+        }
+        holder.doneView.setTag(id);
 
         // Programmatically set the text and color for the priority TextView
         String priorityString = "" + priority; // converts int to String
@@ -150,9 +164,11 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
     // Inner class for creating ViewHolders
     class TodoViewHolder extends RecyclerView.ViewHolder {
 
-        // Class variables for the todo description and priority TextViews
+        // Class variables for the task description and priority TextViews
         TextView todoDescriptionView;
         TextView priorityView;
+        CheckBox doneView;
+        TextView reminderDateView;
 
         /**
          * Constructor for the TodoViewHolders.
@@ -164,6 +180,8 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
 
             todoDescriptionView = (TextView) itemView.findViewById(R.id.todoDescription);
             priorityView = (TextView) itemView.findViewById(R.id.priorityTextView);
+            doneView = (CheckBox) itemView.findViewById(R.id.todoComplete);
+            reminderDateView = (TextView) itemView.findViewById(R.id.reminderDate);
         }
     }
 }

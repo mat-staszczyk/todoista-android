@@ -17,5 +17,11 @@
     <string name="med_priority">Medium</string>
     <string name="low_priority">Low</string>
 
-    <string name="add_button">Add</string>
+    <string name="reminderDate">Reminder date (DD-MM-YYYY HH:MM)</string>
+
+    <string name="add_button">Save</string>
+
+    <string name="todo_reminder_notification_title">You have pending task</string>
+    <string name="todo_reminder_notification_body">Test body</string>
+    <string name="main_notification_channel_name">Primary</string>
 </resources>

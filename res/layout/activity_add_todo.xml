@@ -119,6 +119,36 @@
 
     </FrameLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:paddingBottom="16dp">
+
+        <EditText
+            android:id="@+id/reminderDate"
+            android:layout_width="fill_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:hint="@string/reminderDate"
+            android:paddingBottom="16dp"
+            android:paddingRight="5dp"
+            android:inputType="datetime" />
+        match_parent
+        <Button
+            android:id="@+id/datePicker"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:background="@drawable/clock"
+            android:paddingBottom="16dp"
+            android:textColor="@android:color/primary_text_dark"
+            android:onClick="onClickDatePicker"/>
+
+        </LinearLayout>
+
     <!-- Add button -->
     <Button
         android:id="@+id/addButton"
@@ -129,6 +159,6 @@
         style="@style/TextAppearance.AppCompat.Large"
         android:textColor="@android:color/primary_text_dark"
         android:background="@color/colorPrimary"
-        android:onClick="onClickAddTodo"/>
+        android:onClick="onClickSaveTodo"/>
 
 </LinearLayout>

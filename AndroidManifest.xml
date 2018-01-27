@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.mat.todoista">
 
+    <!-- Vibrate permission -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,7 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.example.mat.todoista.MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,14 +23,20 @@
             </intent-filter>
         </activity>
 
+        <service android:name="com.example.mat.todoista.utilities.AlarmService" />
+
         <activity
             android:name="com.example.mat.todoista.AddTodoActivity"
-            android:label="Add a new todo"/>
+            android:label="Add a new todo" />
+
+        <activity
+            android:name="com.example.mat.todoista.EditTodoActivity"
+            android:label="Edit a new todo" />
 
         <provider
-            android:name="com.example.mat.todoista.data.TodoContentProvider"
+            android:name=".data.TodoContentProvider"
             android:authorities="com.example.mat.todoista"
-            android:exported="false"/>
+            android:exported="false" />
     </application>
 
 </manifest>

@@ -171,7 +171,7 @@ public class TodoContentProvider extends ContentProvider {
         switch (match) {
             // Handle the single item case, recognized by the ID included in the URI path
             case TODO_WITH_ID:
-                // Get the todo ID from the URI path
+                // Get the task ID from the URI path
                 String id = uri.getPathSegments().get(1);
                 // Use selections/selectionArgs to filter for this ID
                 todosDeleted = db.delete(TABLE_NAME, "_id=?", new String[]{id});
@@ -182,7 +182,7 @@ public class TodoContentProvider extends ContentProvider {
 
         // Notify the resolver of a change and return the number of items deleted
         if (todosDeleted != 0) {
-            // A todo was deleted, set notification
+            // A task was deleted, set notification
             getContext().getContentResolver().notifyChange(uri, null);
         }
 

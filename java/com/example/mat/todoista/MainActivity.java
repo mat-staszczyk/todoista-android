@@ -1,5 +1,9 @@
 package com.example.mat.todoista;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -14,8 +18,13 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.TextView;
 
 import com.example.mat.todoista.data.TodoContract;
+import com.example.mat.todoista.utilities.AlarmService;
+
+import java.util.Calendar;
 
 
 public class MainActivity extends AppCompatActivity implements
@@ -29,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements
     // Member variables for the adapter and RecyclerView
     private CustomCursorAdapter mAdapter;
     RecyclerView mRecyclerView;
+    private static PendingIntent alarmIntentRTC;
 
 
     @Override
@@ -154,12 +164,14 @@ public class MainActivity extends AppCompatActivity implements
                 // Query and load all todo data in the background; sort by priority
                 // [Hint] use a try/catch block to catch any errors in loading data
 
+                String order = TodoContract.TodoEntry.COLUMN_DONE + ", " + TodoContract.TodoEntry.COLUMN_PRIORITY;
+
                 try {
                     return getContentResolver().query(TodoContract.TodoEntry.CONTENT_URI,
                             null,
                             null,
                             null,
-                            TodoContract.TodoEntry.COLUMN_PRIORITY);
+                            order);
 
                 } catch (Exception e) {
                     Log.e(TAG, "Failed to asynchronously load data.");
@@ -202,6 +214,47 @@ public class MainActivity extends AppCompatActivity implements
     public void onLoaderReset(Loader<Cursor> loader) {
         mAdapter.swapCursor(null);
     }
+
+    public void testNotification(View view) {
+        stopService(new Intent(this, AlarmService.class));
+        Calendar now = Calendar.getInstance();
+        Intent intent = new Intent(this, AlarmService.class);
+        PendingIntent pintent = PendingIntent.getService(this, 0, intent, 0);
+        AlarmManager alarm = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, now.get(Calendar.HOUR_OF_DAY));
+        cal.set(Calendar.MINUTE, now.get(Calendar.MINUTE) + 1);
+        alarm.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pintent);
+    }
+
+    public void todoChecked(View v) {
+        ContentValues contentValues = new ContentValues();
+        Uri uri = TodoContract.TodoEntry.CONTENT_URI;
+        CheckBox checkBox = (CheckBox)v;
+
+        int id = (int) checkBox.getTag();
+        String stringId = Integer.toString(id);
+        uri = uri.buildUpon().appendPath(stringId).build();
+
+
+        if(checkBox.isChecked()){
+            contentValues.put(TodoContract.TodoEntry.COLUMN_DONE, 1);
+        } else {
+            contentValues.put(TodoContract.TodoEntry.COLUMN_DONE, 0);
+        }
+
+        getContentResolver().update(uri, contentValues, null, null);
+        getSupportLoaderManager().restartLoader(TODO_LOADER_ID, null, MainActivity.this);
+    }
+
+    public void goToEdit(View view) {
+        // Create a new intent to start an EditTodoActivity
+        TextView desc = (TextView)view;
+        int id = (int) desc.getTag();
+        Intent editTodoIntent = new Intent(MainActivity.this, EditTodoActivity.class);
+        editTodoIntent.putExtra("todoId", id);
+        startActivity(editTodoIntent);
+    };
 
 }
 

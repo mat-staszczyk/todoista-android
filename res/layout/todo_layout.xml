@@ -21,13 +21,21 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingBottom="8dp">
 
+        <CheckBox
+            android:id="@+id/todoComplete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="todoChecked"
+            />
+
         <!-- TextView that displays the description of a task -->
         <TextView
             android:id="@+id/todoDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/primary_text_light"
-            style="@style/TextAppearance.AppCompat.Medium" />
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:onClick="goToEdit"/>
 
         <!-- An empty view for spacing out the description and priority views -->
         <View
@@ -48,6 +56,16 @@
             android:background="@drawable/priority_circle" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/reminderDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:paddingLeft="16dp"
+        android:paddingBottom="12dp"
+        android:textColor="@android:color/primary_text_light_nodisable"
+        style="@style/TextAppearance.AppCompat.Medium" />
 
     <!-- A gray divider line at the bottom of each task -->
     <View
